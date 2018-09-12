@@ -29,6 +29,20 @@ function rk_product_add_shipping_class_column( $post_columns ) {
 	return $post_columns;
 }
 
+add_action( 'admin_print_scripts', 'rk_print_shipping_class_column_style' );
+/**
+ * Print the CSS for Shipping Class column
+ */
+function rk_print_shipping_class_column_style() {
+	?>
+	<style>
+		.fixed .column-shipping_class {
+			width: 10%;
+		}
+	</style>
+	<?php
+}
+
 /**
  * Display the Shipping Class in the column
  *
