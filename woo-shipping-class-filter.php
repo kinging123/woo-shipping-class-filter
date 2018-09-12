@@ -1,61 +1,90 @@
 <?php
 /**
+ * Plugin Name: Woo Shipping Class Filter
+ * Plugin URI: http://wordpress.org/plugins/woo-shipping-class-filter
+ * Description: A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
+ * Version: 1.0
+ * Author: Reuven Karasik
+ * Author URI: http://reuven.karasik.org/
+ *
  * @package Woo Shipping Class Filter
+ * @author  Reuven Karasik
+ * @since   1.0
  */
-/*
-Plugin Name: Woo Shipping Class Filter
-Plugin URI: http://wordpress.org/plugins/woo-shipping-class-filter
-Description: A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
-Version: 1.0
-Author: kinging123
-Author URI: http://reuven.karasik.org/
-*/
 
-// Add Shipping Class Column to Products Table
+/**
+ *  Add Shipping Class Column to Products Table
+ */
 add_filter( 'manage_product_posts_columns', 'rk_product_add_shipping_class_column' );
 add_filter( 'manage_product_posts_custom_column', 'rk_product_manage_shipping_class_column', 10, 2 );
 
-function rk_product_add_shipping_class_column( $columns ) {
-	$columns['shipping_class'] = __( 'Shipping class', 'woocommerce' );
-	return $columns;
+/**
+ * Add Shipping Class column to columns list
+ *
+ * @param array $post_columns An array of column names.
+ * @since 1.0
+ */
+function rk_product_add_shipping_class_column( $post_columns ) {
+	$post_columns['shipping_class'] = __( 'Shipping class', 'woocommerce' );
+	return $post_columns;
 }
 
+/**
+ * Display the Shipping Class in the column
+ *
+ * @param string $column_name The name of the column to display.
+ * @param int    $post_id     The current post ID.
+ * @since 1.0
+ */
 function rk_product_manage_shipping_class_column( $column_name, $post_id ) {
 	if ( 'shipping_class' === $column_name ) {
 		$product = new WC_Product( $post_id );
 		$class_slug = $product->get_shipping_class();
 		if ( $class_slug ) {
 			$term = get_term_by( 'slug', $class_slug, 'product_shipping_class' );
-			echo $term->name;
+			echo esc_html( $term->name );
 			return true;
 		}
-		_e( 'No shipping class', 'woocommerce' );
+		esc_html_e( 'No shipping class', 'woocommerce' );
 		return true;
 	}
 	return $column_name;
 }
 
-// Add the select box to filter row
-/*** Preparing for WooCommerce 3.5 - introduces a new filter `woocommerce_products_admin_list_table_filters` ***/
+/**
+ * Add the select box to filter row.
+ */
 
-// add_filter( 'woocommerce_products_admin_list_table_filters', 'rk_add_shipping_class_filter' );
-// function rk_add_shipping_class_filter( $filters ) {
-//   $filters['shipping_class'] = 'render_products_shipping_class_filter';
-//   return $filters;
-// }
+/*
+Preparing for WooCommerce 3.5 - introduces a new filter `woocommerce_products_admin_list_table_filters`
 
-/*** Instead: ***/
+add_filter( 'woocommerce_products_admin_list_table_filters', 'rk_add_shipping_class_filter' );
+function rk_add_shipping_class_filter( $filters ) {
+	$filters['shipping_class'] = 'rk_render_products_shipping_class_filter';
+	return $filters;
+}
+
+Instead:
+*/
 
 add_filter( 'woocommerce_product_filters', 'rk_add_shipping_class_filter' );
+/**
+ * Add filter box for Shipping Class
+ *
+ * @param string $output The previous HTML Output.
+ * @return string The HTML Output.
+ */
 function rk_add_shipping_class_filter( $output ) {
 	ob_start();
-	render_products_shipping_class_filter();
+	rk_render_products_shipping_class_filter();
 	$output .= ob_get_clean();
 	return $output;
 }
 
-
-function render_products_shipping_class_filter() {
+/**
+ * Echoes the shipping class filter select box (copied and modified from Woocommerce source code)
+ */
+function rk_render_products_shipping_class_filter() {
 	global $woocommerce;
 		$current_shipping_class = isset( $_REQUEST['product_shipping_class'] ) ? wc_clean( wp_unslash( $_REQUEST['product_shipping_class'] ) ) : false; // WPCS: input var ok, sanitization ok.
 	$shipping_classes       = array_merge(
