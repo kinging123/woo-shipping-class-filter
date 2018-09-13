@@ -1,8 +1,14 @@
 === Woo Shipping Class Filter ===
+Plugin Name: Woo Shipping Class Filter
 Contributors: kinging
+Tags: woocommerce, shipping-class, ecommerce, e-commerce, commerce, wordpress ecommerce
+Author URI: http://reuven.rocks
+Author: Reuven Karasik
 Requires at least: 3
+Requires PHP: 5.5
 Tested up to: 4.9.8
 Stable tag: trunk
+Version: 1.0
 
 A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
 
@@ -15,4 +21,8 @@ This plugin adds two sections to the Products table in WooCommerce:
 
 
 == Screenshots ==
-1. The products table
+[http://projects.karasik.org/woo-shipping-class-filter/products-table.png  The WooCommerce Products table, after installing the plugin (notice the new column on the right)]
+[http://projects.karasik.org/woo-shipping-class-filter/products-filter.png  The new filter added to the WooCommerce Products table]
+
+== Changelog ==
+1.0 - First full version of this plugin
