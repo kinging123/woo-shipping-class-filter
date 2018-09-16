@@ -21,8 +21,8 @@ This plugin adds two sections to the Products table in WooCommerce:
 
 
 == Screenshots ==
-[http://projects.karasik.org/woo-shipping-class-filter/products-table.png  The WooCommerce Products table, after installing the plugin (notice the new column on the right)]
-[http://projects.karasik.org/woo-shipping-class-filter/products-filter.png  The new filter added to the WooCommerce Products table]
+1. The WooCommerce Products table, after installing the plugin (notice the new column on the right)
+2. The new filter added to the WooCommerce Products table
 
 == Changelog ==
 1.0 - First full version of this plugin
