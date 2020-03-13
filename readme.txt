@@ -6,9 +6,9 @@ Author URI: http://reuven.rocks
 Author: Reuven Karasik
 Requires at least: 3
 Requires PHP: 5.5
-Tested up to: 4.9.8
+Tested up to: 5.3.2
 Stable tag: trunk
-Version: 1.0
+Version: 1.1
 
 A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
 
@@ -25,4 +25,7 @@ This plugin adds two sections to the Products table in WooCommerce:
 2. The new filter added to the WooCommerce Products table
 
 == Changelog ==
+
+1.1 - Removed "no shipping class" option (not working in new WC) and changed the old woocommerce_product_filters hook to the new woocommerce_products_admin_list_table_filters
+
 1.0 - First full version of this plugin
