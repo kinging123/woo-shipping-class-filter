@@ -81,19 +81,8 @@ function rk_add_shipping_class_filter( $filters ) {
 function rk_render_products_shipping_class_filter() {
 	global $woocommerce;
 	$current_shipping_class = isset( $_REQUEST['product_shipping_class'] ) ? wc_clean( wp_unslash( $_REQUEST['product_shipping_class'] ) ) : false; // WPCS: input var ok, sanitization ok.
-	$shipping_classes       = array_merge(
-		array(
-			(object) array(
-				'term_id' => '',
-				'slug' => '',
-				'name' => __( 'No shipping class', 'woocommerce' ),
-			),
-		),
-		$woocommerce->shipping->get_shipping_classes()
-	);
-
-	$output               = '<select name="product_shipping_class"><option value="">' . esc_html__( 'Filter by', 'woocommerce' ) . ' ' . esc_html__( 'Shipping class', 'woocommerce' ) . '</option>';
-	foreach ( $shipping_classes as $shipping_class ) {
+	$output = '<select name="product_shipping_class"><option value="">' . esc_html__( 'Filter by', 'woocommerce' ) . ' ' . esc_html__( 'Shipping class', 'woocommerce' ) . '</option>';
+	foreach ( $woocommerce->shipping->get_shipping_classes() as $shipping_class ) {
 		$slug = $shipping_class->slug;
 		$name = $shipping_class->name;
 		$output .= '<option ' . selected( $slug, $current_shipping_class, false ) . ' value="' . esc_attr( $slug ) . '">' . esc_html( $name ) . '</option>';
