@@ -3,7 +3,7 @@
  * Plugin Name: Woo Shipping Class Filter
  * Plugin URI: http://wordpress.org/plugins/woo-shipping-class-filter
  * Description: A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
- * Version: 1.0
+ * Version: 1.1
  * Author: Reuven Karasik
  * Author URI: http://reuven.karasik.org/
  *
@@ -69,30 +69,10 @@ function rk_product_manage_shipping_class_column( $column_name, $post_id ) {
  * Add the select box to filter row.
  */
 
-/*
-Preparing for WooCommerce 3.5 - introduces a new filter `woocommerce_products_admin_list_table_filters`
-
 add_filter( 'woocommerce_products_admin_list_table_filters', 'rk_add_shipping_class_filter' );
 function rk_add_shipping_class_filter( $filters ) {
 	$filters['shipping_class'] = 'rk_render_products_shipping_class_filter';
 	return $filters;
-}
-
-Instead:
-*/
-
-add_filter( 'woocommerce_product_filters', 'rk_add_shipping_class_filter' );
-/**
- * Add filter box for Shipping Class
- *
- * @param string $output The previous HTML Output.
- * @return string The HTML Output.
- */
-function rk_add_shipping_class_filter( $output ) {
-	ob_start();
-	rk_render_products_shipping_class_filter();
-	$output .= ob_get_clean();
-	return $output;
 }
 
 /**
@@ -100,25 +80,25 @@ function rk_add_shipping_class_filter( $output ) {
  */
 function rk_render_products_shipping_class_filter() {
 	global $woocommerce;
-		$current_shipping_class = isset( $_REQUEST['product_shipping_class'] ) ? wc_clean( wp_unslash( $_REQUEST['product_shipping_class'] ) ) : false; // WPCS: input var ok, sanitization ok.
+	$current_shipping_class = isset( $_REQUEST['product_shipping_class'] ) ? wc_clean( wp_unslash( $_REQUEST['product_shipping_class'] ) ) : false; // WPCS: input var ok, sanitization ok.
 	$shipping_classes       = array_merge(
 		array(
 			(object) array(
-				'term_id' => '0',
-				'slug' => '0',
+				'term_id' => '',
+				'slug' => '',
 				'name' => __( 'No shipping class', 'woocommerce' ),
 			),
 		),
 		$woocommerce->shipping->get_shipping_classes()
 	);
 
-		$output               = '<select name="product_shipping_class"><option value="">' . esc_html__( 'Filter by', 'woocommerce' ) . ' ' . esc_html__( 'Shipping class', 'woocommerce' ) . '</option>';
+	$output               = '<select name="product_shipping_class"><option value="">' . esc_html__( 'Filter by', 'woocommerce' ) . ' ' . esc_html__( 'Shipping class', 'woocommerce' ) . '</option>';
 	foreach ( $shipping_classes as $shipping_class ) {
 		$slug = $shipping_class->slug;
 		$name = $shipping_class->name;
 		$output .= '<option ' . selected( $slug, $current_shipping_class, false ) . ' value="' . esc_attr( $slug ) . '">' . esc_html( $name ) . '</option>';
 	}
-		$output .= '</select>';
-		echo $output; // WPCS: XSS ok.
+	$output .= '</select>';
+	echo $output; // WPCS: XSS ok.
 }
 
