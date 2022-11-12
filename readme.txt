@@ -6,9 +6,9 @@ Author URI: http://reuven.rocks
 Author: Reuven Karasik
 Requires at least: 3
 Requires PHP: 5.5
-Tested up to: 5.3.2
+Tested up to: 6.1
 Stable tag: trunk
-Version: 1.1
+Version: 2.0
 
 A WooCommerce Extension that enabled filtering products by Shipping class in the admin panel.
 
