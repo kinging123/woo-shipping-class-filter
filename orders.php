@@ -214,12 +214,25 @@ function rk_filter_orders_by_shipping_class( $screen ) {
   if ( ! isset( $_GET['order_shipping_class'] ) || ! $_GET['order_shipping_class'] ) {
     return;
   }
+
+  add_filter( 'pre_get_posts', function( WP_Query $query ) {
+    if ( $query->is_main_query() ) {
+      $query->set( 'posts_per_page', -1 );
+    }
+  } );
   
-  add_filter( 'the_posts', function( $orders ) {
-    return array_filter( $orders, function( $order ) {
+  add_filter( 'posts_results', function( $orders, $query ) {
+    if ( ! $query->is_main_query() ) {
+      return $orders;
+    }
+
+    $filtered_orders = array_filter( $orders, function( $order ) {
       return in_array( $_GET['order_shipping_class'], wp_list_pluck( rk_get_shipping_classes( new WC_Order( $order ) ), 'slug' ) );
     } );
-  } );
+    $query->found_posts = count($filtered_orders);
+
+    return $filtered_orders;
+  }, 1, 2 );
 	
 	return;
 }
