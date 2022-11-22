@@ -19,12 +19,16 @@ This plugin adds two sections to the Products table in WooCommerce:
 1. A new column for for each product, showing the shipping class defined for that product (or a proper message is there isn't one defined) 
 2. A new filter box above the table, where you can choose to filter only the products that have a specific shipping class attached to them. *You can also filter all the products with no shipping class at all*, as a convenient way of making sure all your products have a shipping class set.
 
+It also adds filtering to the Orders table in WooCommerce with similar capabilities. This feature considers each order to have one shipping class.
+
 
 == Screenshots ==
 1. The WooCommerce Products table, after installing the plugin (notice the new column on the right)
 2. The new filter added to the WooCommerce Products table
 
 == Changelog ==
+
+2.0 - Added orders functionality, allowing you to filter orders by their shipping method
 
 1.1 - Removed "no shipping class" option (not working in new WC) and changed the old woocommerce_product_filters hook to the new woocommerce_products_admin_list_table_filters
 
